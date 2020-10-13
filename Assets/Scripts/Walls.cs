@@ -2,11 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ScreenEdge
+{
+    Top, Bottom, Left, Right
+}
+
 public class Walls : MonoBehaviour
 {
-    public Vector3 side;
+    // Should object stick to Top, Bottom, Left or Right screen's edge?
+    public ScreenEdge screenEdge;
 
     private Camera cam;
+    private Vector3 pos;
+    private float dist;
 
     private void Awake()
     {
@@ -18,24 +26,33 @@ public class Walls : MonoBehaviour
         setWallsPosition();
     }
 
-    void Update()
-    {
-        
-    }
-
     private void setWallsPosition()
     {
-        float dist = ((transform.position - transform.localScale / 2) - cam.transform.position).y;
+        // Calculate distance of object's bottom edge from the camera's position
+        dist = ((transform.position - transform.localScale / 2) - cam.transform.position).y;
 
-        Debug.Log("dist is y: " + dist);
+        // Convert screen's position to world's position
+        pos = cam.ScreenToWorldPoint(new Vector3(0.0f, 0.0f, dist));
 
-        var northBorder = cam.ScreenToWorldPoint(new Vector3(0, 0, dist));
-
-        transform.position = new Vector3(transform.position.x, transform.position.y, northBorder.z);
-
-        //Vector3 newPosition = cam.ViewportToWorldPoint(new Vector3(1.0f, 1.0f, 1.0f));
-        //Vector3 newPosition = cam.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
-        //newPosition.y = transform.position.y;
-        //transform.position = new Vector3(newPosition.x, transform.position.y, 1.0f);
+        // Set position and scale object to selected screen's edge
+        switch (screenEdge)
+        {
+            case ScreenEdge.Top:
+                transform.position = new Vector3(transform.position.x, transform.position.y, pos.z);
+                transform.localScale = new Vector3(pos.x * 2, transform.localScale.y, transform.localScale.z);
+                break;
+            case ScreenEdge.Bottom:
+                transform.position = new Vector3(transform.position.x, transform.position.y, -pos.z);
+                transform.localScale = new Vector3(pos.x * 2, transform.localScale.y, transform.localScale.z);
+                break;
+            case ScreenEdge.Left:
+                transform.position = new Vector3(-pos.x, transform.position.y, transform.position.z);
+                transform.localScale = new Vector3(pos.z * 2, transform.localScale.y, transform.localScale.z);
+                break;
+            case ScreenEdge.Right:
+                transform.position = new Vector3(pos.x, transform.position.y, transform.position.z);
+                transform.localScale = new Vector3(pos.z * 2, transform.localScale.y, transform.localScale.z);
+                break;
+        }
     }
 }
