@@ -73,12 +73,7 @@ public class GameManager : MonoBehaviour
         }
 
         if (Input.GetButtonDown("Jump"))
-        {
-            foreach (GameObject die in dice)
-            {
-                die.GetComponent<DiceControl>().ThrowDice();
-            }
-        }
+            ThrowDice();
     }
 
     GameObject CreateNewDice()
@@ -97,5 +92,13 @@ public class GameManager : MonoBehaviour
         }
         score = tempScore;
         scoreNumber.text = score.ToString();
+    }
+
+    public void ThrowDice()
+    {
+        foreach (GameObject die in dice)
+        {
+            die.GetComponent<DiceControl>().ThrowDice();
+        }
     }
 }

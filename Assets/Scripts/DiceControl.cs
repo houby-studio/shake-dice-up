@@ -20,11 +20,11 @@ public class DiceControl : MonoBehaviour
 
     public void ThrowDice()
     {
-        float dirX = Random.Range(0, 1000);
-        float dirY = Random.Range(0, 1000);
-        float dirZ = Random.Range(0, 1000);
-        rb.AddForce(transform.up * 1000);
+        float dirX = Random.Range(0, 2000);
+        float dirY = Random.Range(0, 2000);
+        float dirZ = Random.Range(0, 2000);
+        rb.AddForce(rb.transform.TransformDirection(Vector3.up) * 1500);
+        rb.AddForce(Vector3.up * 500);
         rb.AddTorque(dirX, dirY, dirZ);
-        rb.AddForce(transform.up * 1000);
     }
 }
