@@ -7,21 +7,25 @@ public class GameManager : MonoBehaviour
 {
     [Header("Other Components")]
     public TextMeshProUGUI scoreNumber;
+    public GameObject mainMenu;
 
     [Header("User Updated")]
     public int diceCount;
     public GameObject selectedDice;
 
+    [Header("Physics")]
+    public float maxSpeed;
+
     // Shake Detection
-    float accelerometerUpdateInterval = 1.0f / 60.0f;
-    float lowPassKernelWidthInSeconds = 1.0f;
-    float shakeDetectionThreshold = 2.0f;
-    float lowPassFilterFactor;
-    Vector3 lowPassValue;
+    private float accelerometerUpdateInterval = 1.0f / 60.0f;
+    private float lowPassKernelWidthInSeconds = 1.0f;
+    private float shakeDetectionThreshold = 2.0f;
+    private float lowPassFilterFactor;
+    private Vector3 lowPassValue;
 
     // Keep Score and Dice objects
     private int score;
-    public List<GameObject> dice = new List<GameObject>();
+    private List<GameObject> dice = new List<GameObject>();
 
     // Instantiate
     public static GameManager instance;
@@ -47,6 +51,27 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        RecreateDice();
+    }
+
+    private void Update()
+    {
+        // Calculate current acceleration value of device
+        Vector3 acceleration = Input.acceleration;
+        lowPassValue = Vector3.Lerp(lowPassValue, acceleration, lowPassFilterFactor);
+        Vector3 deltaAcceleration = acceleration - lowPassValue;
+
+        // Throw dice when shake is detected
+        if (deltaAcceleration.sqrMagnitude >= shakeDetectionThreshold)
+            ThrowDice();
+
+        // Throw dice when Jump button is pressed
+        if (Input.GetButtonDown("Jump"))
+            ThrowDice();
+    }
+
+    public void RecreateDice()
+    {
         foreach (GameObject die in dice)
         {
             Destroy(die);
@@ -57,26 +82,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        Vector3 acceleration = Input.acceleration;
-        lowPassValue = Vector3.Lerp(lowPassValue, acceleration, lowPassFilterFactor);
-        Vector3 deltaAcceleration = acceleration - lowPassValue;
-
-        if (deltaAcceleration.sqrMagnitude >= shakeDetectionThreshold)
-        {
-            Debug.Log("Shake event detected at time " + Time.time);
-            foreach(GameObject die in dice)
-            {
-                die.GetComponent<DiceControl>().ThrowDice();
-            }
-        }
-
-        if (Input.GetButtonDown("Jump"))
-            ThrowDice();
-    }
-
-    GameObject CreateNewDice()
+    private GameObject CreateNewDice()
     {
         GameObject obj = Instantiate(selectedDice);
         dice.Add(obj);
@@ -100,5 +106,10 @@ public class GameManager : MonoBehaviour
         {
             die.GetComponent<DiceControl>().ThrowDice();
         }
+    }
+
+    public void ToggleMenu()
+    {
+        mainMenu.SetActive(!mainMenu.activeSelf);
     }
 }

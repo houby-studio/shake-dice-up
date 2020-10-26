@@ -13,6 +13,12 @@ public class DiceControl : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+    private void FixedUpdate()
+    {
+        if (rb.velocity.magnitude > GameManager.instance.maxSpeed)
+            rb.velocity = rb.velocity.normalized * GameManager.instance.maxSpeed;
+    }
+
     public void UpdateScore(int currentNumber)
     {
         number = currentNumber;

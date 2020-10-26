@@ -27,14 +27,15 @@ public class CupController : MonoBehaviour
             Quaternion Gyroscope_Attitude_Difference = Quaternion.Inverse(Rotation_Origin) * Gyroscope_Reference.attitude;
             Gyroscope_Attitude_Difference *= Gyroscope_Attitude_Difference_Addend;
 
-            Quaternion Lerped_Quaternion = Quaternion.Lerp(transform.rotation, Gyroscope_Attitude_Difference, 8 * Time.deltaTime);
+            Quaternion Lerped_Quaternion = Quaternion.Lerp(transform.rotation, Gyroscope_Attitude_Difference, 0.5f * Time.deltaTime);
             // Limit max X angle
             if (Lerped_Quaternion.x > 0.1f)
                 Lerped_Quaternion.x = 0.1f;
             else if (Lerped_Quaternion.x < -0.1f)
                 Lerped_Quaternion.x = -0.1f;
-            // Z not interested
+            // Z and Y not interested
             Lerped_Quaternion.z = 0;
+            Lerped_Quaternion.y = 0;
 
             transform.rotation = Lerped_Quaternion;
 
