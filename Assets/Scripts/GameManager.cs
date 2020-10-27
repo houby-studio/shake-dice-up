@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     [Header("Other Components")]
     public TextMeshProUGUI scoreNumber;
     public GameObject mainMenu;
+    public Slider diceCountSlider;
+    public TextMeshProUGUI diceCountText;
 
     [Header("User Updated")]
     public int diceCount;
@@ -70,23 +73,18 @@ public class GameManager : MonoBehaviour
             ThrowDice();
     }
 
-    public void RecreateDice()
+    private void RecreateDice()
     {
         foreach (GameObject die in dice)
         {
             Destroy(die);
         }
+        dice.Clear();
         for (int x = 0; x < diceCount; x++)
         {
-            CreateNewDice();
+            GameObject obj = Instantiate(selectedDice);
+            dice.Add(obj);
         }
-    }
-
-    private GameObject CreateNewDice()
-    {
-        GameObject obj = Instantiate(selectedDice);
-        dice.Add(obj);
-        return obj;
     }
 
     public void UpdateScore()
@@ -98,6 +96,14 @@ public class GameManager : MonoBehaviour
         }
         score = tempScore;
         scoreNumber.text = score.ToString();
+    }
+
+    public void UpdateDiceAmount()
+    {
+        int newDiceCount = (int)Mathf.RoundToInt(diceCountSlider.value);
+        diceCount = newDiceCount;
+        diceCountText.text = newDiceCount.ToString();
+        RecreateDice();
     }
 
     public void ThrowDice()

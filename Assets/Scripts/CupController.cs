@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CupController : MonoBehaviour
 {
+    public float maxSpeed;
+
     private Quaternion Rotation_Origin;
     private Gyroscope Gyroscope_Reference;
 
@@ -27,7 +29,7 @@ public class CupController : MonoBehaviour
             Quaternion Gyroscope_Attitude_Difference = Quaternion.Inverse(Rotation_Origin) * Gyroscope_Reference.attitude;
             Gyroscope_Attitude_Difference *= Gyroscope_Attitude_Difference_Addend;
 
-            Quaternion Lerped_Quaternion = Quaternion.Lerp(transform.rotation, Gyroscope_Attitude_Difference, 0.5f * Time.deltaTime);
+            Quaternion Lerped_Quaternion = Quaternion.Lerp(transform.rotation, Gyroscope_Attitude_Difference, maxSpeed * Time.deltaTime);
             // Limit max X angle
             if (Lerped_Quaternion.x > 0.1f)
                 Lerped_Quaternion.x = 0.1f;
