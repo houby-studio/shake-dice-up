@@ -8,9 +8,16 @@ public class GameManager : MonoBehaviour
 {
     [Header("Other Components")]
     public TextMeshProUGUI scoreNumber;
+    public TextMeshProUGUI diceCountText;
     public GameObject mainMenu;
     public Slider diceCountSlider;
-    public TextMeshProUGUI diceCountText;
+    public FlexibleColorPicker colorPicker;
+    public Material diceMaterial;
+    public Material dotMaterial;
+    public Button dotColorSelected;
+    public Button dotColorWhite;
+    public Button dotColorBlack;
+    public Image dotColorImage;
 
     [Header("User Updated")]
     public int diceCount;
@@ -54,6 +61,13 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        // Initialize player preferences for dice count and dice colors
+        if (PlayerPrefs.GetInt("IsDotWhite") == 1)
+            dotMaterial.color = new Color(1f, 1f, 1f);
+        else
+            dotMaterial.color = new Color(0f, 0f, 0f);
+
+        // Create dice
         RecreateDice();
     }
 
@@ -117,5 +131,53 @@ public class GameManager : MonoBehaviour
     public void ToggleMenu()
     {
         mainMenu.SetActive(!mainMenu.activeSelf);
+    }
+
+    public void ToggleColorMenu()
+    {
+        colorPicker.gameObject.SetActive(!colorPicker.gameObject.activeSelf);
+        if (colorPicker.gameObject.activeSelf)
+        {
+            colorPicker.startingColor = diceMaterial.color;
+            colorPicker.color = diceMaterial.color;
+            if (dotMaterial.color == new Color(1f, 1f, 1f))
+            {
+                dotColorSelected = dotColorWhite;
+                dotColorImage.color = new Color(1f, 1f, 1f);
+                PlayerPrefs.SetInt("IsDotWhite", 1);
+            }
+            else
+            {
+                dotColorSelected = dotColorBlack;
+                dotColorImage.color = new Color(0f, 0f, 0f);
+                PlayerPrefs.SetInt("IsDotWhite", 0);
+            }
+            dotColorSelected.interactable = false;
+        }
+    }
+
+    public void SetDiceDotColor(Button btn)
+    {
+        dotColorSelected.interactable = true;
+        dotColorSelected = btn;
+        btn.interactable = false;
+        if (btn.name == "DiceDotWhiteButton")
+        {
+            dotMaterial.color = new Color(1f, 1f, 1f);
+            dotColorImage.color = new Color(1f, 1f, 1f);
+            PlayerPrefs.SetInt("IsDotWhite", 1);
+
+        } else
+        {
+            dotMaterial.color = new Color(0f, 0f, 0f);
+            dotColorImage.color = new Color(0f, 0f, 0f);
+            PlayerPrefs.SetInt("IsDotWhite", 0);
+        }
+    }
+
+    public void SetColorPickerValue()
+    {
+        diceMaterial.color = colorPicker.color;
+        ToggleColorMenu();
     }
 }
