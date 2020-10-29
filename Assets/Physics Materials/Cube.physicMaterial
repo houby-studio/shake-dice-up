@@ -9,6 +9,6 @@ PhysicMaterial:
   m_Name: Cube
   dynamicFriction: 0
   staticFriction: 0
-  bounciness: 0.5
+  bounciness: 0.3
   frictionCombine: 3
   bounceCombine: 0

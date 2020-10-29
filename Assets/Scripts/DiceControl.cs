@@ -5,6 +5,7 @@ using UnityEngine;
 public class DiceControl : MonoBehaviour
 {
     public int number;
+    public float fallMultiplier;
 
     private Rigidbody rb;
     private Camera cam;
@@ -17,8 +18,12 @@ public class DiceControl : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (rb.velocity.y < -1)
+            rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         if (rb.velocity.magnitude > GameManager.instance.maxSpeed)
             rb.velocity = rb.velocity.normalized * GameManager.instance.maxSpeed;
+        //if (rb.)
+        //    rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
     }
 
     public void UpdateScore(int currentNumber)

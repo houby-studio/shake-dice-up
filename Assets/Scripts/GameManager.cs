@@ -61,12 +61,24 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // Initialize player preferences for dice count and dice colors
+        // Initialize player preferences
+        // Dice dot color
         if (PlayerPrefs.GetInt("IsDotWhite") == 1)
             dotMaterial.color = new Color(1f, 1f, 1f);
         else
             dotMaterial.color = new Color(0f, 0f, 0f);
-
+        // Dice sides color
+        if (PlayerPrefs.HasKey("diceColorR") && PlayerPrefs.HasKey("diceColorG") && PlayerPrefs.HasKey("diceColorB"))
+        {
+            diceMaterial.color = new Color(PlayerPrefs.GetFloat("diceColorR"), PlayerPrefs.GetFloat("diceColorG"), PlayerPrefs.GetFloat("diceColorB"));
+        }
+        // Dice count
+        if (PlayerPrefs.HasKey("diceCount"))
+        {
+            diceCountSlider.value = PlayerPrefs.GetInt("diceCount");
+            UpdateDiceAmount();
+        }
+            
         // Create dice
         RecreateDice();
     }
@@ -117,6 +129,7 @@ public class GameManager : MonoBehaviour
         int newDiceCount = (int)Mathf.RoundToInt(diceCountSlider.value);
         diceCount = newDiceCount;
         diceCountText.text = newDiceCount.ToString();
+        PlayerPrefs.SetInt("diceCount", (int)Mathf.RoundToInt(diceCountSlider.value));
         RecreateDice();
     }
 
@@ -178,6 +191,9 @@ public class GameManager : MonoBehaviour
     public void SetColorPickerValue()
     {
         diceMaterial.color = colorPicker.color;
+        PlayerPrefs.SetFloat("diceColorR", colorPicker.color.r);
+        PlayerPrefs.SetFloat("diceColorG", colorPicker.color.g); 
+        PlayerPrefs.SetFloat("diceColorB", colorPicker.color.b);
         ToggleColorMenu();
     }
 }

@@ -1049,8 +1049,8 @@ Rigidbody:
   m_GameObject: {fileID: 929028605838882946}
   serializedVersion: 2
   m_Mass: 1.5
-  m_Drag: 0.6
-  m_AngularDrag: 0.08
+  m_Drag: 0.2
+  m_AngularDrag: 0.1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -1069,6 +1069,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   number: 0
+  fallMultiplier: 3
 --- !u!1 &929028605887679553
 GameObject:
   m_ObjectHideFlags: 0
