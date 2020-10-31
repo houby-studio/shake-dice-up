@@ -9,6 +9,9 @@ public enum ScreenEdge
 
 public class Walls : MonoBehaviour
 {
+
+    // This script places object to the edge of the screen and sesizes it to fit screen size
+
     // Should object stick to Top, Bottom, Left or Right screen's edge?
     public ScreenEdge screenEdge;
 

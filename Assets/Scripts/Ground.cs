@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Ground : MonoBehaviour
 {
+
+    // This script handles resizing of the bottom of the cup to fit screen size
+
     private Camera cam;
     private Vector3 pos;
     private float dist;

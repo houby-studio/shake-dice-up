@@ -1,15 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+
+    // This script handles connection and jobs between all components in this game
+    // UI Controls
+    // Detecting user input
+    // Updating number of dice
+    // Updating dice type
+    // Updating dice colors
+    // Keeping score and dice state
+    
     [Header("Other Components")]
     public TextMeshProUGUI scoreNumber;
     public TextMeshProUGUI diceCountText;
     public GameObject mainMenu;
+    public GameObject aboutMenu;
     public Slider diceCountSlider;
     public FlexibleColorPicker colorPicker;
     public Material diceMaterial;
@@ -18,6 +30,10 @@ public class GameManager : MonoBehaviour
     public Button dotColorWhite;
     public Button dotColorBlack;
     public Image dotColorImage;
+    public Image menuButtonImage;
+    public Sprite menuButtonSprite;
+    public Sprite restartButtonSprite;
+    private Camera mainCamera;
 
     [Header("User Updated")]
     public int diceCount;
@@ -25,6 +41,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Physics")]
     public float maxSpeed;
+    public float freezableMagnitudeLimit;
 
     // Shake Detection
     private float accelerometerUpdateInterval = 1.0f / 60.0f;
@@ -57,6 +74,8 @@ public class GameManager : MonoBehaviour
         lowPassFilterFactor = accelerometerUpdateInterval / lowPassKernelWidthInSeconds;
         shakeDetectionThreshold *= shakeDetectionThreshold;
         lowPassValue = Input.acceleration;
+
+        mainCamera = Camera.main;
     }
 
     private void Start()
@@ -90,6 +109,25 @@ public class GameManager : MonoBehaviour
         lowPassValue = Vector3.Lerp(lowPassValue, acceleration, lowPassFilterFactor);
         Vector3 deltaAcceleration = acceleration - lowPassValue;
 
+        // Check if user tapped on dice and freeze/unfreeze them
+        if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)
+        {
+            if (!EventSystem.current.IsPointerOverGameObject(Input.touches[0].fingerId))
+            { 
+                Ray ray = mainCamera.ScreenPointToRay(Input.touches[0].position);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    if (hit.collider != null)
+                    {
+                        hit.collider.GetComponent<DiceControl>().ToggleFreeze();
+                    }
+                }
+            }
+
+        }
+
         // Throw dice when shake is detected
         if (deltaAcceleration.sqrMagnitude >= shakeDetectionThreshold)
             ThrowDice();
@@ -98,6 +136,19 @@ public class GameManager : MonoBehaviour
         if (Input.GetButtonDown("Jump"))
             ThrowDice();
     }
+
+    public void UpdateScore()
+    {
+        int tempScore = 0;
+        foreach (GameObject die in dice)
+        {
+            tempScore += die.GetComponent<DiceControl>().number;
+        }
+        score = tempScore;
+        scoreNumber.text = score.ToString();
+    }
+
+    // Dice controls
 
     private void RecreateDice()
     {
@@ -111,17 +162,6 @@ public class GameManager : MonoBehaviour
             GameObject obj = Instantiate(selectedDice);
             dice.Add(obj);
         }
-    }
-
-    public void UpdateScore()
-    {
-        int tempScore = 0;
-        foreach (GameObject die in dice)
-        {
-            tempScore += die.GetComponent<DiceControl>().number;
-        }
-        score = tempScore;
-        scoreNumber.text = score.ToString();
     }
 
     public void UpdateDiceAmount()
@@ -141,9 +181,50 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Color options
+
+    public void SetDiceDotColor(Button btn)
+    {
+        dotColorSelected.interactable = true;
+        dotColorSelected = btn;
+        btn.interactable = false;
+        if (btn.name == "DiceDotWhiteButton")
+        {
+            dotMaterial.color = new Color(1f, 1f, 1f);
+            dotColorImage.color = new Color(1f, 1f, 1f);
+            PlayerPrefs.SetInt("IsDotWhite", 1);
+
+        } else
+        {
+            dotMaterial.color = new Color(0f, 0f, 0f);
+            dotColorImage.color = new Color(0f, 0f, 0f);
+            PlayerPrefs.SetInt("IsDotWhite", 0);
+        }
+        foreach (GameObject die in dice)
+        {
+            die.GetComponent<DiceControl>().UpdateOutlineColor();
+        }
+    }
+
+    public void SetColorPickerValue()
+    {
+        diceMaterial.color = colorPicker.color;
+        PlayerPrefs.SetFloat("diceColorR", colorPicker.color.r);
+        PlayerPrefs.SetFloat("diceColorG", colorPicker.color.g); 
+        PlayerPrefs.SetFloat("diceColorB", colorPicker.color.b);
+        ToggleColorMenu();
+    }
+
+    // UI Controls
+
     public void ToggleMenu()
     {
         mainMenu.SetActive(!mainMenu.activeSelf);
+    }
+
+    public void ToggleAbout()
+    {
+        aboutMenu.SetActive(!aboutMenu.activeSelf);
     }
 
     public void ToggleColorMenu()
@@ -169,31 +250,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SetDiceDotColor(Button btn)
+    public void UpdateButtonFunction()
     {
-        dotColorSelected.interactable = true;
-        dotColorSelected = btn;
-        btn.interactable = false;
-        if (btn.name == "DiceDotWhiteButton")
+        // Check if any dice is frozen and toggle menu button and unfreeze all button
+        if(dice.Any(f => f.GetComponent<DiceControl>().frozen))
         {
-            dotMaterial.color = new Color(1f, 1f, 1f);
-            dotColorImage.color = new Color(1f, 1f, 1f);
-            PlayerPrefs.SetInt("IsDotWhite", 1);
-
+            Debug.Log("Some are frozen");
+            menuButtonImage.sprite = restartButtonSprite;
         } else
         {
-            dotMaterial.color = new Color(0f, 0f, 0f);
-            dotColorImage.color = new Color(0f, 0f, 0f);
-            PlayerPrefs.SetInt("IsDotWhite", 0);
+            Debug.Log("Nothing frozen");
+            menuButtonImage.sprite = menuButtonSprite;
         }
     }
 
-    public void SetColorPickerValue()
+    public void OpenDonateButton()
     {
-        diceMaterial.color = colorPicker.color;
-        PlayerPrefs.SetFloat("diceColorR", colorPicker.color.r);
-        PlayerPrefs.SetFloat("diceColorG", colorPicker.color.g); 
-        PlayerPrefs.SetFloat("diceColorB", colorPicker.color.b);
-        ToggleColorMenu();
+        Application.OpenURL("https://paypal.me/HoubyStudio");
     }
 }
