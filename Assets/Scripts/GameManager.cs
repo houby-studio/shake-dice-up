@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
     // Keep Score and Dice objects
     private int score;
     private List<GameObject> dice = new List<GameObject>();
+    private bool diceFrozen;
 
     // Instantiate
     public static GameManager instance;
@@ -181,6 +182,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void UnfreezeAll()
+    {
+        dice.ForEach(d => d.GetComponent<DiceControl>().Unfreeze());
+        diceFrozen = false;
+        menuButtonImage.sprite = menuButtonSprite;
+    }
+
     // Color options
 
     public void SetDiceDotColor(Button btn)
@@ -219,7 +227,10 @@ public class GameManager : MonoBehaviour
 
     public void ToggleMenu()
     {
-        mainMenu.SetActive(!mainMenu.activeSelf);
+        if (diceFrozen)
+            UnfreezeAll();
+        else
+            mainMenu.SetActive(!mainMenu.activeSelf);
     }
 
     public void ToggleAbout()
@@ -253,13 +264,13 @@ public class GameManager : MonoBehaviour
     public void UpdateButtonFunction()
     {
         // Check if any dice is frozen and toggle menu button and unfreeze all button
-        if(dice.Any(f => f.GetComponent<DiceControl>().frozen))
+        if(dice.Any(d => d.GetComponent<DiceControl>().frozen))
         {
-            Debug.Log("Some are frozen");
+            diceFrozen = true;
             menuButtonImage.sprite = restartButtonSprite;
         } else
         {
-            Debug.Log("Nothing frozen");
+            diceFrozen = false;
             menuButtonImage.sprite = menuButtonSprite;
         }
     }

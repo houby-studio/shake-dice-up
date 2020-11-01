@@ -12,15 +12,23 @@ public class DiceControl : MonoBehaviour
     public bool frozen = false;
 
     private Rigidbody rb;
-    private Camera cam;
     private Outline outline;
+    private AudioSource audio;
+    private Camera cam;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         outline = GetComponent<Outline>();
+        audio = GetComponent<AudioSource>();
         cam = Camera.main;
         UpdateOutlineColor();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!audio.isPlaying)
+            audio.Play();
     }
 
     private void FixedUpdate()
@@ -58,6 +66,13 @@ public class DiceControl : MonoBehaviour
             rb.freezeRotation = !rb.freezeRotation;
             GameManager.instance.UpdateButtonFunction();
         }
+    }
+
+    public void Unfreeze()
+    {
+        frozen = false;
+        outline.enabled = false;
+        rb.freezeRotation = false;
     }
 
     public void UpdateOutlineColor()

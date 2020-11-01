@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 public class TextLink : MonoBehaviour, IPointerClickHandler
 {
 	[SerializeField]
-	private TextMeshProUGUI textMessage;
+	private TextMeshProUGUI textMessage = null;
 
 	// Open clicked link in default application for
 	public void OnPointerClick(PointerEventData eventData)

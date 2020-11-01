@@ -7,8 +7,8 @@ PhysicMaterial:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Cup
-  dynamicFriction: 0.12
-  staticFriction: 0.1
+  dynamicFriction: 0.17
+  staticFriction: 0.15
   bounciness: 0.3
   frictionCombine: 0
   bounceCombine: 0
