@@ -8,6 +8,7 @@ public class DiceControl : MonoBehaviour
     // This script controls the dice physics and allows dice to be thrown and be frozen
 
     public int number;
+    public int sides;
     public float fallMultiplier; // How much faster does object fall to the ground
     public bool frozen = false;
 
@@ -78,5 +79,10 @@ public class DiceControl : MonoBehaviour
     public void UpdateOutlineColor()
     {
         outline.OutlineColor = GameManager.instance.dotMaterial.color;
+    }
+
+    public int GetSides()
+    {
+        return sides;
     }
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 646691171}
   m_Layer: 2
   m_Name: Trigger1
-  m_TagString: Untagged
+  m_TagString: DiceTrigger
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -248,7 +248,7 @@ GameObject:
   - component: {fileID: 646691166}
   m_Layer: 2
   m_Name: Trigger6
-  m_TagString: Untagged
+  m_TagString: DiceTrigger
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -713,7 +713,7 @@ GameObject:
   - component: {fileID: 646691167}
   m_Layer: 2
   m_Name: Trigger5
-  m_TagString: Untagged
+  m_TagString: DiceTrigger
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1071,6 +1071,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   number: 0
+  sides: 6
   fallMultiplier: 3
   frozen: 0
 --- !u!114 &6009096648216883255
@@ -1713,7 +1714,7 @@ GameObject:
   - component: {fileID: 646691170}
   m_Layer: 2
   m_Name: Trigger2
-  m_TagString: Untagged
+  m_TagString: DiceTrigger
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1853,7 +1854,7 @@ GameObject:
   - component: {fileID: 646691169}
   m_Layer: 2
   m_Name: Trigger3
-  m_TagString: Untagged
+  m_TagString: DiceTrigger
   m_Icon: {fileID: 7422848464349959988, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1897,7 +1898,7 @@ GameObject:
   - component: {fileID: 646691168}
   m_Layer: 2
   m_Name: Trigger4
-  m_TagString: Untagged
+  m_TagString: DiceTrigger
   m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
