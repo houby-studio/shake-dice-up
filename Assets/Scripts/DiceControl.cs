@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
 public class DiceControl : MonoBehaviour
@@ -14,22 +15,22 @@ public class DiceControl : MonoBehaviour
 
     private Rigidbody rb;
     private Outline outline;
-    private AudioSource audio;
+    private AudioSource hitSound;
     private Camera cam;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         outline = GetComponent<Outline>();
-        audio = GetComponent<AudioSource>();
+        hitSound = GetComponent<AudioSource>();
         cam = Camera.main;
         UpdateOutlineColor();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!audio.isPlaying)
-            audio.Play();
+        if (!hitSound.isPlaying)
+            hitSound.Play();
     }
 
     private void FixedUpdate()
