@@ -23,6 +23,9 @@ public class CheckZone : MonoBehaviour
                 case 8:
                     newScore = EightSidedDice(col);
                     break;
+                case 10:
+                    newScore = TenSidedDice(col);
+                    break;
                 default:
                     break;
             }
@@ -75,6 +78,36 @@ public class CheckZone : MonoBehaviour
                 return 2;
             case "Trigger8":
                 return 1;
+            default:
+                return 0;
+        }
+    }
+
+    int TenSidedDice(Collider col)
+    {
+        // The trigger happens on the bottom, but the thrown number is on the other side of the dice
+        switch (col.gameObject.name)
+        {
+            case "Trigger1":
+                return 9;
+            case "Trigger2":
+                return 4;
+            case "Trigger3":
+                return 10;
+            case "Trigger4":
+                return 2;
+            case "Trigger5":
+                return 6;
+            case "Trigger6":
+                return 5;
+            case "Trigger7":
+                return 8;
+            case "Trigger8":
+                return 7;
+            case "Trigger9":
+                return 1;
+            case "Trigger10":
+                return 3;
             default:
                 return 0;
         }
