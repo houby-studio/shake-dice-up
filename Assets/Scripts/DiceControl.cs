@@ -10,7 +10,6 @@ public class DiceControl : MonoBehaviour
 
     public int number;
     public int sides;
-    public float fallMultiplier; // How much faster does object fall to the ground
     public bool frozen = false;
 
     private Rigidbody rb;
@@ -29,14 +28,14 @@ public class DiceControl : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!hitSound.isPlaying)
+        if (!hitSound.isPlaying && hitSound.isActiveAndEnabled)
             hitSound.Play();
     }
 
     private void FixedUpdate()
     {
         if (rb.velocity.y < -1)
-            rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+            rb.velocity += Vector3.up * Physics.gravity.y * (GameManager.instance.fallMultiplierSpeed - 1) * Time.deltaTime;
         if (rb.velocity.magnitude > GameManager.instance.maxSpeed)
             rb.velocity = rb.velocity.normalized * GameManager.instance.maxSpeed;
     }

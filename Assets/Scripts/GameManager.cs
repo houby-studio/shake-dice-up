@@ -20,9 +20,12 @@ public class GameManager : MonoBehaviour
     [Header("Other Components")]
     public TextMeshProUGUI scoreNumber;
     public TextMeshProUGUI diceCountText;
+    public TextMeshProUGUI fallMultiplierText;
     public GameObject mainMenu;
+    public GameObject diceMenu;
     public GameObject aboutMenu;
     public Slider diceCountSlider;
+    public Slider fallMultiplierSlider;
     public FlexibleColorPicker colorPicker;
     public Material diceMaterial;
     public Material dotMaterial;
@@ -33,10 +36,13 @@ public class GameManager : MonoBehaviour
     public Image menuButtonImage;
     public Sprite menuButtonSprite;
     public Sprite restartButtonSprite;
+    public List<GameObject> diceTypes;
+    public List<Button> diceTypeButtons;
     private Camera mainCamera;
 
     [Header("User Updated")]
     public int diceCount;
+    public float fallMultiplierSpeed;
     public GameObject selectedDice;
 
     [Header("Physics")]
@@ -98,9 +104,21 @@ public class GameManager : MonoBehaviour
             diceCountSlider.value = PlayerPrefs.GetInt("diceCount");
             UpdateDiceAmount();
         }
-            
-        // Create dice
-        RecreateDice();
+        // Fall multiplier
+        if (PlayerPrefs.HasKey("fallMultiplierSpeed"))
+        {
+            fallMultiplierSlider.value = PlayerPrefs.GetFloat("fallMultiplierSpeed");
+            UpdateFallMultiplier();
+        }
+        // Dice type - Also creates dice
+        if (PlayerPrefs.HasKey("selectedDice"))
+        {
+            SetSelectedDice(PlayerPrefs.GetInt("selectedDice"));
+        }
+        else
+        {
+            SetSelectedDice(0);
+        }
     }
 
     private void Update()
@@ -174,6 +192,22 @@ public class GameManager : MonoBehaviour
         RecreateDice();
     }
 
+    public void UpdateFallMultiplier()
+    {
+        fallMultiplierSpeed = fallMultiplierSlider.value;
+        fallMultiplierText.text = fallMultiplierSlider.value.ToString();
+        PlayerPrefs.SetFloat("fallMultiplierSpeed", fallMultiplierSlider.value);
+    }
+
+    public void SetSelectedDice(int diceIndex)
+    {
+        diceTypeButtons[PlayerPrefs.GetInt("selectedDice")].interactable = true;
+        selectedDice = diceTypes[diceIndex];
+        diceTypeButtons[diceIndex].interactable = false;
+        RecreateDice();
+        PlayerPrefs.SetInt("selectedDice", diceIndex);
+    }
+
     public void ThrowDice()
     {
         foreach (GameObject die in dice)
@@ -233,6 +267,10 @@ public class GameManager : MonoBehaviour
             mainMenu.SetActive(!mainMenu.activeSelf);
     }
 
+    public void ToggleDice()
+    {
+        diceMenu.SetActive(!diceMenu.activeSelf);
+    }
     public void ToggleAbout()
     {
         aboutMenu.SetActive(!aboutMenu.activeSelf);
