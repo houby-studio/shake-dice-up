@@ -15,15 +15,12 @@ public class DiceControl : MonoBehaviour
     private Outline outline;
     private AudioSource hitSound;
 
-    void Start()
+    void Awake()
     {
-        if (gameObject.tag != "Preload")
-        {
-            rb = GetComponent<Rigidbody>();
-            outline = GetComponent<Outline>();
-            hitSound = GetComponent<AudioSource>();
-            UpdateOutlineColor();
-        }
+        rb = GetComponent<Rigidbody>();
+        outline = GetComponent<Outline>();
+        hitSound = GetComponent<AudioSource>();
+        UpdateOutlineColor();
     }
 
     private void OnCollisionEnter(Collision collision)
