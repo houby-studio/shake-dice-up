@@ -6,6 +6,7 @@ TagManager:
   tags:
   - DiceTrigger
   - Preload
+  - NoSound
   layers:
   - Default
   - TransparentFX

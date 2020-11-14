@@ -13,20 +13,26 @@ public class DiceControl : MonoBehaviour
 
     private Rigidbody rb;
     private Outline outline;
-    private AudioSource hitSound;
+    //private AudioSource hitSound;
 
     void Awake()
     {
-        rb = GetComponent<Rigidbody>();
-        outline = GetComponent<Outline>();
-        hitSound = GetComponent<AudioSource>();
-        UpdateOutlineColor();
+        if (gameObject.tag != "Preload")
+        {
+            rb = GetComponent<Rigidbody>();
+            outline = GetComponent<Outline>();
+            //hitSound = GetComponent<AudioSource>();
+            UpdateOutlineColor();
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!hitSound.isPlaying && hitSound.isActiveAndEnabled)
-            hitSound.Play();
+        if (collision.other.tag != "NoSound")
+        {
+            Debug.Log(collision.relativeVelocity.magnitude / 20);
+            GameManager.instance.PlayCollision(collision.GetContact(0).point, collision.relativeVelocity.magnitude);
+        }
     }
 
     private void FixedUpdate()

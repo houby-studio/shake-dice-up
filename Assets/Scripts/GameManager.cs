@@ -40,10 +40,11 @@ public class GameManager : MonoBehaviour
     public List<GameObject> diceTypes;
     public List<Button> diceTypeButtons;
     public Camera mainCamera;
+    private AudioSource hitSound;
 
     [Header("User Updated")]
     public int diceCount;
-    public float fallMultiplierSpeed;
+    public float fallMultiplierSpeed = 3.0f;
     public GameObject selectedDice;
 
     [Header("Physics")]
@@ -77,6 +78,8 @@ public class GameManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
+
+        hitSound = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -85,8 +88,6 @@ public class GameManager : MonoBehaviour
         lowPassFilterFactor = accelerometerUpdateInterval / lowPassKernelWidthInSeconds;
         shakeDetectionThreshold *= shakeDetectionThreshold;
         lowPassValue = Input.acceleration;
-
-        mainCamera = Camera.main;
 
         // Remove preloaded prefabs
         preloadDice.SetActive(false);
@@ -329,5 +330,11 @@ public class GameManager : MonoBehaviour
     public void OpenDonateButton()
     {
         Application.OpenURL("https://paypal.me/HoubyStudio");
+    }
+
+    public void PlayCollision(Vector3 position, float volume)
+    {
+        if (!hitSound.isPlaying && hitSound.isActiveAndEnabled)
+            AudioSource.PlayClipAtPoint(hitSound.clip, position, volume / 20);
     }
 }
