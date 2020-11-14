@@ -5,109 +5,42 @@ using UnityEngine;
 public class CheckZone : MonoBehaviour
 {
 
-    // This script updates score based on the trigger which collides with the ground trigger
-
-    private int newScore = 0;
+    // This script updates score based on the Trigger which collides with the ground Trigger
 
     void OnTriggerStay(Collider col)
     {
         if (col.tag == "DiceTrigger")
         { 
-            // Obtain component from root object of collision trigger source, that is an Dice object with DiceControl script attached
-            DiceControl diceObject = col.gameObject.transform.root.GetComponent<DiceControl>();
-            switch (diceObject.sides)
-            {
-                case 6:
-                    newScore = SixSidedDice(col);
-                    break;
-                case 8:
-                    newScore = EightSidedDice(col);
-                    break;
-                case 10:
-                    newScore = TenSidedDice(col);
-                    break;
-                default:
-                    break;
-            }
-            //Update score on dice and update total score
-            diceObject.UpdateScore(newScore);
+            // Obtain component from root object of collision Trigger source, that is an Dice object with DiceControl script attached and update score
+            col.gameObject.transform.root.GetComponent<DiceControl>().UpdateScore(GetDiceScore(col));
             GameManager.instance.UpdateScore();
         }
     }
 
-    int SixSidedDice(Collider col)
+    int GetDiceScore(Collider col)
     {
-        // The trigger happens on the bottom, but the thrown number is on the other side of the dice
         switch (col.gameObject.name)
         {
-            case "Trigger1":
-                return 6;
-            case "Trigger2":
-                return 5;
-            case "Trigger3":
-                return 4;
-            case "Trigger4":
-                return 3;
-            case "Trigger5":
-                return 2;
-            case "Trigger6":
+            case "T1":
                 return 1;
-            default:
-                return 0;
-        }
-    }
-
-    int EightSidedDice(Collider col)
-    {
-        // The trigger happens on the bottom, but the thrown number is on the other side of the dice
-        switch (col.gameObject.name)
-        {
-            case "Trigger1":
-                return 8;
-            case "Trigger2":
+            case "T2":
+                return 2;
+            case "T3":
+                return 3;
+            case "T4":
+                return 4;
+            case "T5":
+                return 5;
+            case "T6":
+                return 6;
+            case "T7":
                 return 7;
-            case "Trigger3":
-                return 6;
-            case "Trigger4":
-                return 5;
-            case "Trigger5":
-                return 4;
-            case "Trigger6":
-                return 3;
-            case "Trigger7":
-                return 2;
-            case "Trigger8":
-                return 1;
-            default:
-                return 0;
-        }
-    }
-
-    int TenSidedDice(Collider col)
-    {
-        // The trigger happens on the bottom, but the thrown number is on the other side of the dice
-        switch (col.gameObject.name)
-        {
-            case "Trigger1":
+            case "T8":
+                return 8;
+            case "T9":
                 return 9;
-            case "Trigger2":
-                return 4;
-            case "Trigger3":
+            case "T10":
                 return 10;
-            case "Trigger4":
-                return 2;
-            case "Trigger5":
-                return 6;
-            case "Trigger6":
-                return 5;
-            case "Trigger7":
-                return 8;
-            case "Trigger8":
-                return 7;
-            case "Trigger9":
-                return 1;
-            case "Trigger10":
-                return 3;
             default:
                 return 0;
         }

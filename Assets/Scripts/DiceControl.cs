@@ -9,21 +9,21 @@ public class DiceControl : MonoBehaviour
     // This script controls the dice physics and allows dice to be thrown and be frozen
 
     public int number;
-    public int sides;
     public bool frozen = false;
 
     private Rigidbody rb;
     private Outline outline;
     private AudioSource hitSound;
-    private Camera cam;
 
-    void Awake()
+    void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        outline = GetComponent<Outline>();
-        hitSound = GetComponent<AudioSource>();
-        cam = Camera.main;
-        UpdateOutlineColor();
+        if (gameObject.tag != "Preload")
+        {
+            rb = GetComponent<Rigidbody>();
+            outline = GetComponent<Outline>();
+            hitSound = GetComponent<AudioSource>();
+            UpdateOutlineColor();
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -53,7 +53,7 @@ public class DiceControl : MonoBehaviour
             float dirY = (Random.Range(0, 2) * 2 - 1) * Random.Range(1000, 2000);
             float dirZ = (Random.Range(0, 2) * 2 - 1) * Random.Range(1000, 2000);
             rb.AddForce(rb.transform.TransformDirection(Vector3.up) * Random.Range(500, 2000));
-            rb.AddForce((cam.transform.position - rb.position) * 200);
+            rb.AddForce((GameManager.instance.mainCamera.transform.position - rb.position) * 200);
             rb.AddTorque(dirX, dirY, dirZ);
         }
     }
@@ -78,11 +78,6 @@ public class DiceControl : MonoBehaviour
 
     public void UpdateOutlineColor()
     {
-        outline.OutlineColor = GameManager.instance.dotMaterial.color;
-    }
-
-    public int GetSides()
-    {
-        return sides;
+       outline.OutlineColor = GameManager.instance.dotMaterial.color;
     }
 }

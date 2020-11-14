@@ -61,7 +61,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1547312462211488234}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: a742b7ecd11c62a42b8351bff2e5067f, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
@@ -195,8 +195,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   number: 0
-  sides: 8
-  fallMultiplier: 3
   frozen: 0
 --- !u!1 &1853303458358565268
 GameObject:
@@ -209,7 +207,7 @@ GameObject:
   - component: {fileID: 1853303458358565271}
   - component: {fileID: 1853303458358565270}
   m_Layer: 2
-  m_Name: Trigger2
+  m_Name: T2
   m_TagString: DiceTrigger
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -253,7 +251,7 @@ GameObject:
   - component: {fileID: 1853303458417358511}
   - component: {fileID: 1853303458417358510}
   m_Layer: 2
-  m_Name: Trigger4
+  m_Name: T4
   m_TagString: DiceTrigger
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -297,7 +295,7 @@ GameObject:
   - component: {fileID: 1853303458563358491}
   - component: {fileID: 1853303458563358490}
   m_Layer: 2
-  m_Name: Trigger3
+  m_Name: T3
   m_TagString: DiceTrigger
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -341,7 +339,7 @@ GameObject:
   - component: {fileID: 1853303458760919888}
   - component: {fileID: 1853303458760919891}
   m_Layer: 2
-  m_Name: Trigger6
+  m_Name: T6
   m_TagString: DiceTrigger
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -385,7 +383,7 @@ GameObject:
   - component: {fileID: 1853303458983081345}
   - component: {fileID: 1853303458983081344}
   m_Layer: 2
-  m_Name: Trigger5
+  m_Name: T5
   m_TagString: DiceTrigger
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -429,7 +427,7 @@ GameObject:
   - component: {fileID: 1853303459462796122}
   - component: {fileID: 1853303459462796133}
   m_Layer: 2
-  m_Name: Trigger1
+  m_Name: T1
   m_TagString: DiceTrigger
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -473,7 +471,7 @@ GameObject:
   - component: {fileID: 1853303459858265011}
   - component: {fileID: 1853303459858265010}
   m_Layer: 2
-  m_Name: Trigger8
+  m_Name: T8
   m_TagString: DiceTrigger
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -517,7 +515,7 @@ GameObject:
   - component: {fileID: 1853303460085167499}
   - component: {fileID: 1853303460085167498}
   m_Layer: 2
-  m_Name: Trigger7
+  m_Name: T7
   m_TagString: DiceTrigger
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

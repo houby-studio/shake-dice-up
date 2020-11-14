@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     public GameObject mainMenu;
     public GameObject diceMenu;
     public GameObject aboutMenu;
+    public GameObject preloadDice;
     public Slider diceCountSlider;
     public Slider fallMultiplierSlider;
     public FlexibleColorPicker colorPicker;
@@ -38,7 +39,7 @@ public class GameManager : MonoBehaviour
     public Sprite restartButtonSprite;
     public List<GameObject> diceTypes;
     public List<Button> diceTypeButtons;
-    private Camera mainCamera;
+    public Camera mainCamera;
 
     [Header("User Updated")]
     public int diceCount;
@@ -76,17 +77,20 @@ public class GameManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
+    }
 
+    private void Start()
+    {
         // Initialize variables for shake detection
         lowPassFilterFactor = accelerometerUpdateInterval / lowPassKernelWidthInSeconds;
         shakeDetectionThreshold *= shakeDetectionThreshold;
         lowPassValue = Input.acceleration;
 
         mainCamera = Camera.main;
-    }
 
-    private void Start()
-    {
+        // Remove preloaded prefabs
+        preloadDice.SetActive(false);
+
         // Initialize player preferences
         // Dice dot color
         if (PlayerPrefs.GetInt("IsDotWhite") == 1)
@@ -165,6 +169,11 @@ public class GameManager : MonoBehaviour
         }
         score = tempScore;
         scoreNumber.text = score.ToString();
+    }
+
+    void OnSceneLoaded ()
+    {
+        Debug.Log("Scene loaded");
     }
 
     // Dice controls
@@ -311,6 +320,10 @@ public class GameManager : MonoBehaviour
             diceFrozen = false;
             menuButtonImage.sprite = menuButtonSprite;
         }
+    }
+    public void OpenWebsiteButton()
+    {
+        Application.OpenURL("https://houby-studio.eu/shake-dice-up");
     }
 
     public void OpenDonateButton()
