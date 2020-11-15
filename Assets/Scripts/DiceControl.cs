@@ -13,7 +13,6 @@ public class DiceControl : MonoBehaviour
 
     private Rigidbody rb;
     private Outline outline;
-    //private AudioSource hitSound;
 
     void Awake()
     {
@@ -21,16 +20,14 @@ public class DiceControl : MonoBehaviour
         {
             rb = GetComponent<Rigidbody>();
             outline = GetComponent<Outline>();
-            //hitSound = GetComponent<AudioSource>();
             UpdateOutlineColor();
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.other.tag != "NoSound")
+        if (collision.collider.tag != "NoSound")
         {
-            Debug.Log(collision.relativeVelocity.magnitude / 20);
             GameManager.instance.PlayCollision(collision.GetContact(0).point, collision.relativeVelocity.magnitude);
         }
     }
