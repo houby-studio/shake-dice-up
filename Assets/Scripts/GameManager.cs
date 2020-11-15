@@ -115,6 +115,11 @@ public class GameManager : MonoBehaviour
             fallMultiplierSlider.value = PlayerPrefs.GetFloat("fallMultiplierSpeed");
             UpdateFallMultiplier();
         }
+        else
+        {
+            fallMultiplierSlider.value = fallMultiplierSpeed;
+            UpdateFallMultiplier();
+        }
         // Dice type - Also creates dice
         if (PlayerPrefs.HasKey("selectedDice"))
         {
@@ -325,11 +330,6 @@ public class GameManager : MonoBehaviour
     public void OpenWebsiteButton()
     {
         Application.OpenURL("https://houby-studio.eu/shake-dice-up");
-    }
-
-    public void OpenDonateButton()
-    {
-        Application.OpenURL("https://paypal.me/HoubyStudio");
     }
 
     public void PlayCollision(Vector3 position, float volume)
