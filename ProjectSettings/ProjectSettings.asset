@@ -177,7 +177,7 @@ PlayerSettings:
   applicationIdentifier:
     Android: eu.houbystudio.shakediceup
   buildNumber: {}
-  AndroidBundleVersionCode: 2
+  AndroidBundleVersionCode: 3
   AndroidMinSdkVersion: 29
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
