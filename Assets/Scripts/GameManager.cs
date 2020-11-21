@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     public GameObject mainMenu;
     public GameObject diceMenu;
     public GameObject aboutMenu;
-    public GameObject preloadDice;
+    //public GameObject preloadDice;
     public Slider diceCountSlider;
     public Slider fallMultiplierSlider;
     public FlexibleColorPicker colorPicker;
@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour
         lowPassValue = Input.acceleration;
 
         // Remove preloaded prefabs
-        preloadDice.SetActive(false);
+        //preloadDice.SetActive(false);
 
         // Initialize player preferences
         // Dice dot color

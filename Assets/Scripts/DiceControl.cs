@@ -35,7 +35,7 @@ public class DiceControl : MonoBehaviour
     private void FixedUpdate()
     {
         if (rb.velocity.y < -1)
-            rb.velocity += Vector3.up * Physics.gravity.y * (GameManager.instance.fallMultiplierSpeed - 1) * Time.deltaTime;
+            rb.velocity += Vector3.up * Physics.gravity.y * (GameManager.instance.fallMultiplierSpeed * 2) * Time.deltaTime;
         if (rb.velocity.magnitude > GameManager.instance.maxSpeed)
             rb.velocity = rb.velocity.normalized * GameManager.instance.maxSpeed;
     }
